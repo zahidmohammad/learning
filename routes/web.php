@@ -1,8 +1,9 @@
 <?php
 
 use App\Post;
+use App\User;
 use Illuminate\Support\Facades\DB;
-// use App\Post;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -15,9 +16,9 @@ use Illuminate\Support\Facades\DB;
 // |
 // */
 
-//  Route::get('/', function () {
-//      return view('welcome');
-//  });
+ Route::get('/', function () {
+          return view('welcome');
+ });
 
 //  Route::get('/about', function () {
 //      return 'Hi about pages';
@@ -191,3 +192,60 @@ use Illuminate\Support\Facades\DB;
 //     Post::withTrashed()->where('is_admin',0)->forceDelete();
 
 // });
+// -----------------------------------------------------------------------------------------------------------------------------------------------
+///|//////////////////--------------ELOQUENT  RELATIONSHIP--------------------------------//////////////////////                                 |
+// -----------------------------------------------------------------------------------------------------------------------------------------------
+// // eloquent relationship one to one by using hasOne ////////
+
+
+// Route::get('/user/{id}/post', function($id){
+
+//    return User::find($id)->post;
+
+// });
+
+// // eloquent relationship----- INVERSE one to one by using belongsTo ////////
+
+// Route::get('/post/{id}/user', function($id){
+
+// return Post::find($id)->user;
+
+
+// });
+
+// / // eloquent relationship----- one to Many by using hasMany ////////
+
+// Route::get('/posts', function(){
+
+//     $user = User::find(1);
+//     foreach($user->posts as $post){
+
+//         return $post->title . "<br>";
+//     }
+// });
+// / // eloquent relationship----- Many to Many by using belongTo("Pivot Table") ////////
+
+
+// Route::get('/user/{id}/role', function($id){
+
+//      $user = User::find($id)->roles()->orderBy('id','desc')->get();
+//      return $user;
+
+//     //  foreach($user->roles as $role){
+
+//     //    return $role->name;
+//     //  }
+// });
+
+///////////////Accessing the intermediate table/Pivot////////////////////////
+
+Route::get('user/pivot', function(){
+    
+    $user = User::find(1);
+
+    foreach($user->roles as $role){
+
+        return $role->pivot->created_at;
+    }
+
+});
